@@ -1,0 +1,76 @@
+<!-- diagnosis_app/templates/diagnosis_app/api_docs.html -->
+{% extends 'diagnosis_app/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white p-4">
+                    <h2 class="mb-0"><i class="fas fa-code me-2"></i>API Documentation</h2>
+                    <p class="mb-0">REST API Endpoints for AI Healthcare Diagnosis System</p>
+                </div>
+
+                <div class="card-body p-4">
+                    <h3 class="mb-3">Available Endpoints</h3>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-success text-white">
+                                    <h5 class="mb-0">POST /api/diagnose/</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Description:</strong> Submit symptoms for AI diagnosis</p>
+                                    <pre><code>{
+  "symptoms": ["fever", "cough"],
+  "age": 30,
+  "gender": "Male"
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="mb-0">GET /api/history/</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Description:</strong> Get recent diagnosis history</p>
+                                    <pre><code>Response: {
+  "success": true,
+  "data": [...],
+  "count": 10
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-warning text-dark">
+                                    <h5 class="mb-0">GET /api/patients/</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Description:</strong> Get list of all patients</p>
+                                    <pre><code>Response: {
+  "success": true,
+  "data": [...],
+  "count": 5
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Note:</strong> All API endpoints return JSON responses. Use tools like Postman or cURL to test.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

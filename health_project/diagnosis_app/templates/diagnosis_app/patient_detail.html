@@ -1,0 +1,97 @@
+<!-- diagnosis_app/templates/diagnosis_app/patient_detail.html -->
+{% extends 'diagnosis_app/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white p-4">
+                    <h2 class="mb-0"><i class="fas fa-user-circle me-2"></i>Patient Details</h2>
+                    <p class="mb-0">{{ patient.name }} - Age {{ patient.age }}</p>
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="fas fa-user me-2"></i>Personal Information</h5>
+                                    <p><strong>Name:</strong> {{ patient.name }}</p>
+                                    <p><strong>Age:</strong> {{ patient.age }}</p>
+                                    <p><strong>Gender:</strong> {{ patient.gender }}</p>
+                                    <p><strong>Phone:</strong> {{ patient.phone|default:"Not provided" }}</p>
+                                    <p><strong>Email:</strong> {{ patient.email|default:"Not provided" }}</p>
+                                    <p><strong>Medical History:</strong> {{ patient.medical_history|default:"None" }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="fas fa-calendar-alt me-2"></i>Account Info</h5>
+                                    <p><strong>Created:</strong> {{ patient.created_at|date:"M d, Y" }}</p>
+                                    <p><strong>Total Diagnoses:</strong> {{ diagnoses|length }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <h4 class="mb-3"><i class="fas fa-list me-2"></i>Diagnosis History</h4>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Disease</th>
+                                        <th>Severity</th>
+                                        <th>Confidence</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for diagnosis in diagnoses %}
+                                    <tr>
+                                        <td>{{ diagnosis.created_at|date:"M d, Y" }}</td>
+                                        <td><span class="badge bg-primary">{{ diagnosis.primary_disease }}</span></td>
+                                        <td>
+                                            {% if diagnosis.severity == 'Low' %}
+                                                <span class="badge bg-success">{{ diagnosis.severity }}</span>
+                                            {% elif diagnosis.severity == 'Medium' %}
+                                                <span class="badge bg-warning text-dark">{{ diagnosis.severity }}</span>
+                                            {% elif diagnosis.severity == 'High' %}
+                                                <span class="badge bg-danger">{{ diagnosis.severity }}</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">{{ diagnosis.severity|default:"Unknown" }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ diagnosis.confidence_score }}%</td>
+                                        <td>
+                                            <a href="{% url 'history' %}" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-eye"></i> View
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">No diagnosis records found.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-light text-center">
+                    <a href="{% url 'history' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>Back to History
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
