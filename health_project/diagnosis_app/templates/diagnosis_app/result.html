@@ -1,0 +1,93 @@
+<!-- diagnosis_app/templates/diagnosis_app/result.html -->
+{% extends 'diagnosis_app/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white p-4">
+                    <h3 class="mb-0"><i class="fas fa-stethoscope me-2"></i>Diagnosis Report</h3>
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="fas fa-user me-2"></i>Patient Information</h5>
+                                    <p><strong>Name:</strong> {{ patient.name }}</p>
+                                    <p><strong>Age:</strong> {{ patient.age }}</p>
+                                    <p><strong>Gender:</strong> {{ patient.gender }}</p>
+                                    <p><strong>Phone:</strong> {{ patient.phone|default:"Not provided" }}</p>
+                                    <p><strong>Email:</strong> {{ patient.email|default:"Not provided" }}</p>
+                                    <p><strong>Medical History:</strong> {{ patient.medical_history|default:"None" }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="fas fa-clipboard-check me-2"></i>Diagnosis Details</h5>
+                                    <p><strong>Primary Disease:</strong> {{ result.predictions.0.disease|default:"Unknown" }}</p>
+                                    <p><strong>Severity:</strong>
+                                        {% if result.overall_severity == 'Low' %}
+                                            <span class="badge bg-success">{{ result.overall_severity|default:"Unknown" }}</span>
+                                        {% elif result.overall_severity == 'Medium' %}
+                                            <span class="badge bg-warning text-dark">{{ result.overall_severity|default:"Unknown" }}</span>
+                                        {% elif result.overall_severity == 'High' %}
+                                            <span class="badge bg-danger">{{ result.overall_severity|default:"Unknown" }}</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">{{ result.overall_severity|default:"Unknown" }}</span>
+                                        {% endif %}
+                                    </p>
+                                    <p><strong>Urgency:</strong> {{ result.predictions.0.urgency|default:"Normal" }}</p>
+                                    <p><strong>Confidence:</strong> {{ result.confidence|default:"0%" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card bg-light border-warning">
+                                <div class="card-header bg-warning text-dark">
+                                    <h5 class="card-title mb-0"><i class="fas fa-pills me-2"></i>Recommended Cure & Actions to Take</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="mb-0">{{ result.predictions.0.cure|default:"Consult a doctor" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title"><i class="fas fa-list-check me-2"></i>Symptoms Analyzed</h5>
+                                    <ul class="list-group">
+                                        {% for symptom in result.predictions.0.symptoms %}
+                                        <li class="list-group-item">{{ symptom }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-light text-center">
+                    <a href="{% url 'diagnose' %}" class="btn btn-primary btn-lg me-2">
+                        <i class="fas fa-plus-circle me-1"></i>New Diagnosis
+                    </a>
+                    <a href="{% url 'history' %}" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-history me-1"></i>View History
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

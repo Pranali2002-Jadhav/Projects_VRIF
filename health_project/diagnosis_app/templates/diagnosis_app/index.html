@@ -1,0 +1,382 @@
+<!-- diagnosis_app/templates/diagnosis_app/index.html -->
+{% extends 'diagnosis_app/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-gradient-primary text-white p-4">
+          <h2 class="mb-0">
+            <i class="fas fa-user-md me-2"></i>AI Healthcare Diagnosis System
+          </h2>
+          <p class="mb-0">Enter patient information and symptoms for AI diagnosis</p>
+        </div>
+
+        <div class="card-body p-4">
+          <form method="POST" id="diagnosisForm">
+            {% csrf_token %}
+
+            <!-- Patient Information -->
+            <div class="row mb-4">
+              <div class="col-md-6 mb-3">
+                <label for="name" class="form-label"><strong>Patient Name</strong></label>
+                <input type="text" class="form-control" id="name" name="name" required>
+              </div>
+
+              <div class="col-md-3 mb-3">
+                <label for="age" class="form-label"><strong>Age</strong></label>
+                <input type="number" class="form-control" id="age" name="age" min="0" max="150" required>
+              </div>
+
+              <div class="col-md-3 mb-3">
+                <label for="gender" class="form-label"><strong>Gender</strong></label>
+                <select class="form-select" id="gender" name="gender" required>
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="row mb-4">
+              <div class="col-md-6 mb-3">
+                <label for="phone" class="form-label"><strong>Phone Number</strong></label>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="+1234567890">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label"><strong>Email Address</strong></label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="patient@example.com">
+              </div>
+            </div>
+
+            <!-- Medical History -->
+            <div class="mb-4">
+              <label for="medical_history" class="form-label"><strong>Medical History</strong></label>
+              <textarea class="form-control" id="medical_history" name="medical_history" rows="3"
+                placeholder="Enter any relevant medical history..."></textarea>
+            </div>
+
+            <!-- Symptoms -->
+            <div class="mb-4">
+              <label class="form-label"><strong>Select Symptoms</strong></label>
+
+              <div class="row">
+
+                <!-- Common -->
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="fever" name="symptoms" value="fever">
+                    <label class="form-check-label" for="fever">Fever</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="cough" name="symptoms" value="cough">
+                    <label class="form-check-label" for="cough">Cough</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="sneezing" name="symptoms" value="sneezing">
+                    <label class="form-check-label" for="sneezing">Sneezing</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="runny_nose" name="symptoms" value="runny_nose">
+                    <label class="form-check-label" for="runny_nose">Runny Nose</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="congestion" name="symptoms" value="congestion">
+                    <label class="form-check-label" for="congestion">Congestion</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="sore_throat" name="symptoms" value="sore_throat">
+                    <label class="form-check-label" for="sore_throat">Sore Throat</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="fatigue" name="symptoms" value="fatigue">
+                    <label class="form-check-label" for="fatigue">Fatigue</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="body_ache" name="symptoms" value="body_ache">
+                    <label class="form-check-label" for="body_ache">Body Ache</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="chills" name="symptoms" value="chills">
+                    <label class="form-check-label" for="chills">Chills</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="headache" name="symptoms" value="headache">
+                    <label class="form-check-label" for="headache">Headache</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="dizziness" name="symptoms" value="dizziness">
+                    <label class="form-check-label" for="dizziness">Dizziness</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="nausea" name="symptoms" value="nausea">
+                    <label class="form-check-label" for="nausea">Nausea</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="vomiting" name="symptoms" value="vomiting">
+                    <label class="form-check-label" for="vomiting">Vomiting</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="rash" name="symptoms" value="rash">
+                    <label class="form-check-label" for="rash">Rash</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="itchy_eyes" name="symptoms" value="itchy_eyes">
+                    <label class="form-check-label" for="itchy_eyes">Itchy Eyes</label>
+                  </div>
+                </div>
+
+                <!-- Respiratory / Chest -->
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="shortness_of_breath" name="symptoms" value="shortness_of_breath">
+                    <label class="form-check-label" for="shortness_of_breath">Shortness of Breath</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="chest_pain" name="symptoms" value="chest_pain">
+                    <label class="form-check-label" for="chest_pain">Chest Pain</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="persistent_cough" name="symptoms" value="persistent_cough">
+                    <label class="form-check-label" for="persistent_cough">Persistent Cough</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="blood_in_sputum" name="symptoms" value="blood_in_sputum">
+                    <label class="form-check-label" for="blood_in_sputum">Blood in Sputum</label>
+                  </div>
+                </div>
+
+                <!-- ENT / Neuro -->
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="loss_of_taste" name="symptoms" value="loss_of_taste">
+                    <label class="form-check-label" for="loss_of_taste">Loss of Taste</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="loss_of_smell" name="symptoms" value="loss_of_smell">
+                    <label class="form-check-label" for="loss_of_smell">Loss of Smell</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="sensitivity_to_light" name="symptoms" value="sensitivity_to_light">
+                    <label class="form-check-label" for="sensitivity_to_light">Sensitivity to Light</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="vision_changes" name="symptoms" value="vision_changes">
+                    <label class="form-check-label" for="vision_changes">Vision Changes</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="severe_headache" name="symptoms" value="severe_headache">
+                    <label class="form-check-label" for="severe_headache">Severe Headache</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="seizures" name="symptoms" value="seizures">
+                    <label class="form-check-label" for="seizures">Seizures</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="memory_loss" name="symptoms" value="memory_loss">
+                    <label class="form-check-label" for="memory_loss">Memory Loss</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="personality_changes" name="symptoms" value="personality_changes">
+                    <label class="form-check-label" for="personality_changes">Personality Changes</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="weakness" name="symptoms" value="weakness">
+                    <label class="form-check-label" for="weakness">Weakness</label>
+                  </div>
+                </div>
+
+                <!-- GI / Other serious -->
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="abdominal_pain" name="symptoms" value="abdominal_pain">
+                    <label class="form-check-label" for="abdominal_pain">Abdominal Pain</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="diarrhea" name="symptoms" value="diarrhea">
+                    <label class="form-check-label" for="diarrhea">Diarrhea</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="blood_in_stool" name="symptoms" value="blood_in_stool">
+                    <label class="form-check-label" for="blood_in_stool">Blood in Stool</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="difficulty_swallowing" name="symptoms" value="difficulty_swallowing">
+                    <label class="form-check-label" for="difficulty_swallowing">Difficulty Swallowing</label>
+                  </div>
+                </div>
+
+                <!-- Diabetes / Dehydration-like -->
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="thirst" name="symptoms" value="thirst">
+                    <label class="form-check-label" for="thirst">Thirst</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="dry_mouth" name="symptoms" value="dry_mouth">
+                    <label class="form-check-label" for="dry_mouth">Dry Mouth</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="dark_urine" name="symptoms" value="dark_urine">
+                    <label class="form-check-label" for="dark_urine">Dark Urine</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="excessive_thirst" name="symptoms" value="excessive_thirst">
+                    <label class="form-check-label" for="excessive_thirst">Excessive Thirst</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="frequent_urination" name="symptoms" value="frequent_urination">
+                    <label class="form-check-label" for="frequent_urination">Frequent Urination</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="slow_healing" name="symptoms" value="slow_healing">
+                    <label class="form-check-label" for="slow_healing">Slow Healing</label>
+                  </div>
+                </div>
+
+                <!-- Anemia-like -->
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="pale_skin" name="symptoms" value="pale_skin">
+                    <label class="form-check-label" for="pale_skin">Pale Skin</label>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="cold_hands" name="symptoms" value="cold_hands">
+                    <label class="form-check-label" for="cold_hands">Cold Hands</label>
+                  </div>
+                </div>
+
+                <!-- Weight -->
+                <div class="col-md-4 mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input symptom-checkbox" type="checkbox" id="unexplained_weight_loss" name="symptoms" value="unexplained_weight_loss">
+                    <label class="form-check-label" for="unexplained_weight_loss">Unexplained Weight Loss</label>
+                  </div>
+                </div>
+
+              </div><!-- /.row -->
+            </div><!-- /.mb-4 symptoms -->
+
+            <!-- Submit -->
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-search me-2"></i>Analyze Symptoms
+              </button>
+            </div>
+
+          </form>
+        </div><!-- /.card-body -->
+      </div><!-- /.card -->
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
